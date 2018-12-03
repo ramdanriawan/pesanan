@@ -1,0 +1,34 @@
+kegunaan:
+- menambah data item
+- melihat list pesanan
+- bisa di filter
+- melihat pesanan yang sudah dihapus
+- pesanan yang sudah dihapus bisa di recovery lagi
+
+login
+    - admin
+        - username
+        - password
+
+index
+    - admin
+
+        - list pesanan
+            - nama
+            - item, jumlah
+            - status
+                - Pending
+                - Cancel
+                - Selesai
+                - Refund
+            - catatan
+            - button ceklis, edit, hapus
+
+        - add item
+            - item
+            - harga
+            - stok
+            - deskripsi
+
+        - list trash
+            - sama kayak list pesanan

@@ -1,0 +1,28 @@
+pesanan
+    - rancangan
+
+    - asset
+        - node_modules
+            - library js
+
+        - js
+            - app.js
+
+        - css
+            - app.css
+
+    - halaman
+        - admin
+            - index.php
+            - body.php
+            - footer.php
+            - login.php
+            - add.php
+            - list.php
+            - trash.php
+            - logout.php
+
+    - database
+        - users
+            - users001
+                - dbPesanan.json
