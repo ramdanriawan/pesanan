@@ -109,7 +109,7 @@ app.config(function($routeProvider) {
 });
 
 // rootscope untuk database
-app.run(function($rootScope, $http) {
+app.run(function($rootScope, $http, $routeParams) {
     // untuk mengambil data items
     $http.get(databaseUrlItem).then(function(response) {
         $rootScope.items = response.data.items;
@@ -501,7 +501,19 @@ app.controller('editOrderController', function($scope, $rootScope, $http) {
             hash: true
         });
 
-        var index = $rootScope.orders.findIndex(x => x.id == formEditOrderData.id);
+        var index = $rootScope.items.findIndex(x => x.id == formEditOrderData.item_id);
+        var indexOrder = $rootScope.orders.findIndex(x => x.id == formEditOrderData.id);
+
+        // untuk mencegah jika user bolak balik ganti status orderannya
+        if((formEditOrderData.status == "Pending" || formEditOrderData.status == "Selesai") && ($rootScope.editOrder.status == "Cancel" || $rootScope.editOrder.status == "Refund")){
+            $rootScope.items[index].stok = parseInt($rootScope.items[index].stok) - parseInt(formEditOrderData.jumlah);
+        } else if((formEditOrderData.status == "Cancel" || formEditOrderData.status == "Refund") && ($rootScope.editOrder.status == "Pending" || $rootScope.editOrder.status == "Selesai")){
+            $rootScope.items[index].stok = parseInt($rootScope.items[index].stok) + parseInt(formEditOrderData.jumlah);
+            console.log($rootScope.items, $rootScope.editOrder.status);
+        }
+
+        // ketika udah diedid stoknya maka ubah juga yang di $rootScope.editOrder.statusnya
+        $rootScope.editOrder.status = formEditOrderData.status;
 
         $http({
             url: '/pesanan/server/editOrder.php',
@@ -510,9 +522,6 @@ app.controller('editOrderController', function($scope, $rootScope, $http) {
         }).then(function(response) {
 
             // panggil fungsi ajax lagi untuk mengurangkan stoknya
-            var index = $rootScope.items.findIndex(x => x.id == formEditOrderData.item_id);
-            var indexOrder = $rootScope.orders.findIndex(x => x.id == formEditOrderData.id);
-
             if (localStorage.editOrderStok != formEditOrderData.jumlah && localStorage.editOrderStok != $rootScope.editOrder.stok) {
                 $rootScope.items[index].stok = localStorage.itemStok;
                 $rootScope.items[index].stok = parseInt($rootScope.items[index].stok) + parseInt($rootScope.editOrder.jumlah);
@@ -536,6 +545,24 @@ app.controller('editOrderController', function($scope, $rootScope, $http) {
                     });
                 });
             } else {
+
+                // perbarui data itemnya diserver
+                $http({
+                    url: '/pesanan/server/editItem.php',
+                    method: 'POST',
+                    data: $rootScope.items[index]
+                }).then(function(response) {
+                    swal({
+                        title: 'Berhasil',
+                        type: 'success',
+                        text: 'Berhasil Mengedit Data',
+                        showConfirmButton: false,
+                        timer: 1000,
+                        position: 'top',
+                        toast: true
+                    });
+                })
+
                 // jika tidak ada data yang dirubah maka beritahu saja jika proses update data telah Berhasil
                 swal({
                     title: 'Berhasil',
