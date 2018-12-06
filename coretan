@@ -1,5 +1,11 @@
-logika untuk mengatur status ketika diedit pada item
-1. inisialisasi jumlah item default dulu di localStorage.editOrderItemDefault
-2. jika diubah ke cancel atau refund maka items bertambah dan tersimpan dilocalStorage localStorage.editOrderItemTambah
-3. jika statusnya pending atau selesai maka item nya berdasarkan localStorage
-4. jika diubah 
+logika untuk mengatur cara menambah item
+1. ketika user telah menentukan satu piilihan item dan klik add maka user akan diredirect ke halaman untuk menambah item tanpa inputan nama status dan catatan
+2. dihalaman itu juga user dapat melihat semua item yang telah diorder beserta harga, total harganya dan juga stok barang
+3. ketika user mengklik selesai maka user akan diarahkan ke halaman order
+4. setiap item yang ditambahkan atau dikurangkan akan mempengaruhi jumlah, total_harga, dan stok barang
+5. untuk tulisan itemnya akan diganti dengan tulisan link x item
+6. ketika user mengklik tulisan x item maka user akan diarahkan ke halaman yang sama dengan nomor 1 tapi tidak ada fiture editnya
+
+logika untuk mengatur editorder
+1. ketika user mengklik tombol edit order maka user bisa mengedit namun tanpa inputan item dan jumlah dan ada fiture list item beserta untuk tambah dan kurangnya
+2. 

@@ -19,10 +19,27 @@
                 <input class='form-control' name='nama' ng-model='nama' placeholder="Nama.." required>
             </div>
             <div class="form-group">
-                <label for="">Item</label>
-                <select class='form-control' name='item_id'>
-                    <option ng-repeat='item in items' ng-value='{{ item.id }}'>{{ item.item }} @{{ item.harga | currency: "Rp": 2 }}, Stok: {{ item.stok }}, {{ item_id }}</option>
-                </select>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="">Item</label>
+                        <select class='form-control' name='item_id'>
+                            <option ng-repeat='item in items' ng-value='{{ item.id }}' ng-selected='$index == 0'>{{ item.item }} @{{ item.harga | currency: "Rp": 2 }}, Stok: {{ item.stok }}</option>
+                        </select>
+                    </div>
+                    <!-- <div class="col-sm-4 col-4" style="padding-left: 0;">
+                        <label for="">Act</label>
+                        <div class="d-sm-block">
+                            <div class="btn-group">
+                                <button type="button" class="btn">
+                                    +Add
+                                </button>
+                                <button type="button" class="btn">
+                                    See
+                                </button>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
             </div>
             <div class="form-group">
                 <label for="">Jumlah</label>

@@ -27,16 +27,16 @@ app.controller('loginController', function($scope) {
 });
 
 // untuk membuat filter ke string
-app.filter('convertToString', function(){
-    return function(input){
+app.filter('convertToString', function() {
+    return function(input) {
         var input = input.toString();
         return input;
     }
 })
 
 // untuk membuat filter ke integer
-app.filter('convertToNumber', function(){
-    return function(input){
+app.filter('convertToNumber', function() {
+    return function(input) {
         var input = Number(input);
         return input;
     }
@@ -432,14 +432,11 @@ app.controller('addOrderController', function($scope, $http, $rootScope) {
             hash: true
         });
 
-        formAddOrderData.id = Math.random();
-
-        // ubah item idnya krena angular nambahin 'number:item_id'
-        formAddOrderData.item_id = parseInt()
-
         // cek stok barang, jika > 0 lanjutkan, jika lebih kecil gagalkan
         var index = $rootScope.items.findIndex(x => x.id == formAddOrderData.item_id);
-        console.log($rootScope.items[index], formAddOrderData.item_id);
+        formAddOrderData.id = Math.random();
+        formAddOrderData.total = formAddOrderData.jumlah * $rootScope.items[index].harga;
+
         if ($rootScope.items[index].stok - formAddOrderData.jumlah >= 0) {
             $http({
                 url: '/pesanan/server/addOrder.php',
@@ -462,10 +459,8 @@ app.controller('addOrderController', function($scope, $http, $rootScope) {
                 $rootScope.items[index].stok -= formAddOrderData.jumlah;
 
                 $scope.nama = '';
-                $scope.item_id = '';
                 $scope.jumlah = '';
                 $scope.harga = '';
-                $scope.status = '';
                 $scope.catatan = '';
 
             }, function(error) {
@@ -505,9 +500,9 @@ app.controller('editOrderController', function($scope, $rootScope, $http) {
         var indexOrder = $rootScope.orders.findIndex(x => x.id == formEditOrderData.id);
 
         // untuk mencegah jika user bolak balik ganti status orderannya
-        if((formEditOrderData.status == "Pending" || formEditOrderData.status == "Selesai") && ($rootScope.editOrder.status == "Cancel" || $rootScope.editOrder.status == "Refund")){
+        if ((formEditOrderData.status == "Pending" || formEditOrderData.status == "Selesai") && ($rootScope.editOrder.status == "Cancel" || $rootScope.editOrder.status == "Refund")) {
             $rootScope.items[index].stok = parseInt($rootScope.items[index].stok) - parseInt(formEditOrderData.jumlah);
-        } else if((formEditOrderData.status == "Cancel" || formEditOrderData.status == "Refund") && ($rootScope.editOrder.status == "Pending" || $rootScope.editOrder.status == "Selesai")){
+        } else if ((formEditOrderData.status == "Cancel" || formEditOrderData.status == "Refund") && ($rootScope.editOrder.status == "Pending" || $rootScope.editOrder.status == "Selesai")) {
             $rootScope.items[index].stok = parseInt($rootScope.items[index].stok) + parseInt(formEditOrderData.jumlah);
             console.log($rootScope.items, $rootScope.editOrder.status);
         }
